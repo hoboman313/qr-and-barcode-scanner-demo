@@ -2,7 +2,7 @@
 define("qr-and-barcode-scanner-demo/app",["exports","qr-and-barcode-scanner-demo/resolver","ember-load-initializers","qr-and-barcode-scanner-demo/config/environment"],function(e,n,a,r){Object.defineProperty(e,"__esModule",{value:!0})
 var t=Ember.Application.extend({modulePrefix:r.default.modulePrefix,podModulePrefix:r.default.podModulePrefix,Resolver:n.default});(0,a.default)(t,r.default.modulePrefix),e.default=t}),define("qr-and-barcode-scanner-demo/components/code-scanner",["exports"],function(e){Object.defineProperty(e,"__esModule",{value:!0})
 var n=Ember.Component,a=Ember.set,r=Ember.$
-e.default=n.extend({classNames:["centered"],didInsertElement:function(){var e=this,n=function(n){a(e,"error",n.name+" "+(n.message?"-":"")+" "+n.message)},t={resultFunction:function(n){a(e,"result","Format: "+n.format+" - Value: "+n.code)},getDevicesError:n,getUserMediaError:n,cameraError:n}
+e.default=n.extend({classNames:["centered"],didInsertElement:function(){var e=this,n=function(n){a(e,"error",n.name+" "+(n.message?"-":"")+" "+n.message)},t={resultFunction:function(n){a(e,"result","Format: "+n.format+" - Value: "+n.code)},getDevicesError:n,getUserMediaError:n,cameraError:n,cameraSuccess:function(){}}
 r("canvas#camera-view").WebCodeCamJQuery(t).data().plugin_WebCodeCamJQuery.play()}})}),define("qr-and-barcode-scanner-demo/helpers/app-version",["exports","qr-and-barcode-scanner-demo/config/environment","ember-cli-app-version/utils/regexp"],function(e,n,a){function r(e){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{}
 return n.hideSha?t.match(a.versionRegExp)[0]:n.hideVersion?t.match(a.shaRegExp)[0]:t}Object.defineProperty(e,"__esModule",{value:!0}),e.appVersion=r
 var t=n.default.APP.version
