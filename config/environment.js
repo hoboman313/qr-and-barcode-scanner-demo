@@ -3,7 +3,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'qr-scan-demo',
+    modulePrefix: 'qr-and-barcode-scanner-demo',
     environment,
     rootURL: '/',
     locationType: 'auto',
@@ -44,7 +44,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
+    ENV.rootURL = '/qr-and-barcode-scanner-demo/';
   }
 
   return ENV;
