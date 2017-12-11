@@ -1,27 +1,51 @@
 import Component from '@ember/component';
-import { set } from '@ember/object';
-import $ from 'jquery';
+import { isSupported } from 'ember-qr-scanner';
+import { setProperties, observer, get, set } from '@ember/object';
+import { next } from '@ember/runloop';
+let { Quagga } = window;
 
 export default Component.extend({
+  isSupported,
   classNames: ['centered'],
 
-  didInsertElement() {
-    const onError = error => {
-      set(this, 'error', `${error.name} ${error.message ? '-' : ''} ${error.message}`);
-    };
-    const webCodeCamOptions = {
-      resultFunction: result => {
-        set(this, 'result', `Format: ${result.format} - Value: ${result.code}`);
-      },
-      getDevicesError: onError,
-      getUserMediaError: onError,
-      cameraError: onError,
-      cameraSuccess: () => {}
-    };
+  isShowingQRScanner: false,
+  isShowingBarcodeScanner: false,
 
-    $('canvas#camera-view')
-      .WebCodeCamJQuery(webCodeCamOptions)
-      .data()
-      .plugin_WebCodeCamJQuery.play();
+  onIsShowingBarcodeScannerChanged: observer('isShowingBarcodeScanner', function() {
+    if (get(this, 'isShowingBarcodeScanner')) {
+      next(() => {
+        Quagga.init(null, () => {
+          Quagga.start();
+        });
+      });
+    } else {
+      Quagga.stop();
+    }
+  }),
+
+  didInsertElement() {
+    Quagga.onDetected(data => {
+      set(this, 'result', data.codeResult.code);
+    });
+  },
+
+  actions: {
+    toggleShowQR() {
+      this.toggleProperty('isShowingQRScanner');
+
+      setProperties(this, {
+        isShowingBarcodeScanner: false,
+        result: null
+      });
+    },
+
+    toggleShowBarcode() {
+      this.toggleProperty('isShowingBarcodeScanner');
+
+      setProperties(this, {
+        isShowingQRScanner: false,
+        result: null
+      });
+    }
   }
 });

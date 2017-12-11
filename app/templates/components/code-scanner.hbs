@@ -1,9 +1,27 @@
-<canvas id="camera-view"></canvas>
+{{#if isSupported}}
+  <div class="margin-bottom">
+    <button {{action "toggleShowQR"}}>
+      Toggle QR Scanner
+    </button>
 
-{{#if result}}
-  <h3>{{result}}</h3>
-{{/if}}
+    <button {{action "toggleShowBarcode"}}>
+      Toggle Barcode Scanner
+    </button>
+  </div>
 
-{{#if error}}
-  <h3>Error: {{error}}</h3>
+  {{#if result}}
+    <h3>Result:</h3>
+    <h3>{{result}}</h3>
+  {{/if}}
+
+  {{#if isShowingQRScanner}}
+    {{qr-scanner onSuccess=(action (mut result))}}
+  {{/if}}
+
+  {{#if isShowingBarcodeScanner}}
+    <div id="interactive" class="viewport">
+    </div>
+  {{/if}}
+{{else}}
+  <p>Barcode scanning is not supported in your browser.</p>
 {{/if}}
