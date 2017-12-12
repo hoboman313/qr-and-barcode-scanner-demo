@@ -6,6 +6,19 @@
   margin-bottom: 5rem;
 }
 
+#interactive {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+#interactive video,
 .drawingBuffer {
-  display: none;
+  position: absolute;
+  left: 30%;
+}
+
+canvas {
+  width: 640px;
+  height: 480px;
 }

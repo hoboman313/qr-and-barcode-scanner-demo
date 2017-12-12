@@ -14,9 +14,16 @@ export default Component.extend({
   onIsShowingBarcodeScannerChanged: observer('isShowingBarcodeScanner', function() {
     if (get(this, 'isShowingBarcodeScanner')) {
       next(() => {
-        Quagga.init(null, () => {
-          Quagga.start();
-        });
+        Quagga.init(
+          {
+            decoder: {
+              readers: ['code_128_reader']
+            }
+          },
+          () => {
+            Quagga.start();
+          }
+        );
       });
     } else {
       Quagga.stop();
@@ -25,8 +32,17 @@ export default Component.extend({
 
   didInsertElement() {
     Quagga.onDetected(data => {
-      set(this, 'result', data.codeResult.code);
+      let result = data.codeResult.code;
+
+      if (this.isSaneResult(result)) {
+        set(this, 'result', result);
+      }
     });
+  },
+
+  isSaneResult(result) {
+    // 16 chars in length and alpha-numerical values only
+    return result.length === 16 && result.match(/^\w+$/);
   },
 
   actions: {
