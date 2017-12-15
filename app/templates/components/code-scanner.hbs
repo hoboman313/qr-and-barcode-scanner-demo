@@ -1,9 +1,20 @@
-<canvas id="camera-view"></canvas>
+<div class="margin-bottom">
+  <button {{action "toggleShowQR"}}>
+    Toggle QR Scanner
+  </button>
+
+  <button {{action "toggleShowBarcode"}}>
+    Toggle Barcode Scanner
+  </button>
+</div>
 
 {{#if result}}
+  <h3>Result:</h3>
   <h3>{{result}}</h3>
 {{/if}}
 
-{{#if error}}
-  <h3>Error: {{error}}</h3>
+<canvas id="camera-view" class={{cameraViewClass}}></canvas>
+
+{{#if isShowingBarcodeScanner}}
+  <div id="interactive" class="viewport"></div>
 {{/if}}
